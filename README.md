@@ -35,6 +35,15 @@ The output of both models feeds directly into `rapid-alert-platform`'s routing e
 
 ## 🔗 Ecosystem Position
 
+This repository is **Module 2** of a four-part interconnected emergency communication platform:
+
+| Module | Repo | Role |
+|---|---|---|
+| **Module 1** | [rapid-alert-platform](https://github.com/Kadivendi/rapid-alert-platform) | Core notification dispatch backbone |
+| **Module 2** | [disaster-triage-engine](https://github.com/Kadivendi/disaster-triage-engine) | AI severity classification + escalation forecasting ← **YOU ARE HERE** |
+| **Module 3** | [resilient-mesh-gateway](https://github.com/Kadivendi/resilient-mesh-gateway) | Offline BLE/WiFi/LoRa mesh alert delivery |
+| **Module 4** | [cap-ipaws-bridge](https://github.com/Kadivendi/cap-ipaws-bridge) | FEMA IPAWS-OPEN + CAP 1.2 federal integration |
+
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │                    DATA SOURCES (Real-Time)                      │
@@ -54,7 +63,15 @@ The output of both models feeds directly into `rapid-alert-platform`'s routing e
              ┌───────────────▼──────────────────┐
              │       rapid-alert-platform        │
              │  (Notification dispatch + retry)  │
-             └───────────────────────────────────┘
+             └──────────┬──────────┬────────────┘
+                        │          │
+        delivery fails  │          │ federal alerts
+                        ▼          ▼
+          ┌─────────────────┐  ┌──────────────────┐
+          │ resilient-mesh-  │  │ cap-ipaws-bridge  │
+          │ gateway (BLE/    │  │ (FEMA IPAWS-OPEN) │
+          │ LoRa fallback)   │  │                   │
+          └─────────────────┘  └──────────────────┘
 ```
 
 ---
